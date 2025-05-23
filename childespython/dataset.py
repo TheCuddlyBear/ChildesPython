@@ -23,6 +23,7 @@ class ChildesDataset:
         """
         self.path = path
         self.dataset = dict()
+        self.load_dataset()
 
     def load_dataset(self):
         """
