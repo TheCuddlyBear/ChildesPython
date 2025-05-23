@@ -1,6 +1,6 @@
 import math
 
-from util import get_recording_by_recording_name, tokenize
+from childespython.util import get_recording_by_recording_name, tokenize
 
 
 class Transcript:
@@ -20,7 +20,7 @@ class Transcript:
         get_participant_tiers_markers(): Returns a list of participant tiers markers.
         get_structured_transcript(): Returns a structured representation of the transcript.
     """
-    def __init__(self, path: str, corpus: str, child: str, recording: str):
+    def __init__(self, path: str, corpus: str, child: str):
         """
         Initializes the Transcript object with the path to the transcript file.
 
