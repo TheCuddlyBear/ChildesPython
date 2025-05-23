@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [v0.4.1](https://github.com/TheCuddlyBear/ChildesPython/releases/tag/v0.4.1) - 2025-05-23
+
 ## [v0.4.0](https://github.com/TheCuddlyBear/ChildesPython/releases/tag/v0.4.0) - 2025-05-23
 
 ## [v0.3.0](https://github.com/TheCuddlyBear/ChildesPython/releases/tag/v0.3.0) - 2025-05-23
