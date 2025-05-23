@@ -1,6 +1,6 @@
 import math
 
-from childespython.util import get_recording_by_recording_name, tokenize
+from util import get_recording_by_recording_name, tokenize
 
 
 class Transcript:
