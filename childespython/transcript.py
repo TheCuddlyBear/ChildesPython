@@ -250,7 +250,7 @@ class Transcript:
 
         return dict(sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
 
-    def compute_ttr_from_frequencies(frequency_dictionary):
+    def compute_ttr_from_frequencies(self, frequency_dictionary):
         """
         Compute the Type-Token Ratio (TTR) from a frequency dictionary.
 
