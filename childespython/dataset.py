@@ -14,7 +14,7 @@ class ChildesDataset:
         path (str): The path to the directory containing the CHILDES transcripts.
     """
 
-    def __init__(self, path: str, corpus_name: str, child_name: str, recording_name: str):
+    def __init__(self, path: str):
         """
         Initializes the Dataset with the given parameters.
 
