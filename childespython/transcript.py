@@ -20,7 +20,7 @@ class Transcript:
         get_participant_tiers_markers(): Returns a list of participant tiers markers.
         get_structured_transcript(): Returns a structured representation of the transcript.
     """
-    def __init__(self, path: str, corpus: str, child: str, recording: str):
+    def __init__(self, path: str, corpus: str, child: str, recording: str, name: str):
         """
         Initializes the Transcript object with the path to the transcript file.
 
@@ -33,6 +33,7 @@ class Transcript:
         self.path: str = path
         self.corpus: str = corpus
         self.child: str = child
+        self.name: str = name
         self.recording: str = get_recording_by_recording_name(path=path, corpus_name=corpus, child_name=child, recording_name=recording)
 
     def get_cleaned_transcript(self) -> list:

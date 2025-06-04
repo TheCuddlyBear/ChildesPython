@@ -41,7 +41,7 @@ class ChildesDataset:
                             self.dataset[dir][child][recording] = dict()
                             recording_path = os.path.join(child_path, recording)
                             if recording.endswith(".cha"):
-                                transcript = Transcript(path=self.path, corpus=dir, child=child, recording=recording)
+                                transcript = Transcript(path=self.path, corpus=dir, child=child, recording=recording, name=recording)
                                 self.dataset[dir][child][recording] = transcript
 
 
