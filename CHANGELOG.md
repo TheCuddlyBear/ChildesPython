@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Exported main classes `ChildesDataset` and `Transcript` in `__init__.py` for easier access.
+
 ## [v0.4.4](https://github.com/TheCuddlyBear/ChildesPython/releases/tag/v0.4.4) - 2025-06-04
 
 ## [v0.4.3](https://github.com/TheCuddlyBear/ChildesPython/releases/tag/v0.4.3) - 2025-05-23
