@@ -46,7 +46,7 @@ class Transcript:
         cleaned_up_transcript = []
         for line in self.recording:
             line = line.strip()
-            if line.startswith("@") or line.startswith("*") or line.startswith("%"):
+            if line.startswith(("@", "*", "%")):
                 cleaned_up_transcript.append(line)
             else:
                 if cleaned_up_transcript:
@@ -66,8 +66,8 @@ class Transcript:
         participants_line = [line for line in cleaned_up_transcript if line.startswith("@Participants")]
         participants = participants_line[0].split('\t', 1)[1]  # Split at the first tab only and take the second element
 
-        age_line = [line for line in cleaned_up_transcript if line.startswith("@ID") and ";" in line]
-        age = [bit for bit in age_line[0].split("|") if ";" in bit][0]
+        age_line = next(line for line in cleaned_up_transcript if line.startswith("@ID") and ";" in line)
+        age = next(bit for bit in age_line.split("|") if ";" in bit)
 
         return {"participants": participants, "age": age}
 
@@ -106,9 +106,10 @@ class Transcript:
                 - "speaker's tier": dict with the speaker tier
                 - "dependent tiers": dict with dependent tiers
         """
+        from typing import Any
         cleaned_up_transcript = self.get_cleaned_transcript()
         structured_transcript = []
-        current_entry = {
+        current_entry: dict[str, Any] = {
             "id": None,
             "speaker's tier": {},
             "dependent tiers": {}
@@ -133,9 +134,10 @@ class Transcript:
                 current_entry["speaker's tier"] = {line_parts[0].strip(":"): line_parts[1]}
 
             elif "%" in line_parts[0]:
-                current_entry["dependent tiers"].update(
-                    {line_parts[0].strip(":"): line_parts[1]}
-                )
+                if isinstance(current_entry["dependent tiers"], dict):
+                    current_entry["dependent tiers"].update(
+                        {line_parts[0].strip(":"): line_parts[1]}
+                    )
 
         # Append the final utterance
         if current_entry["speaker's tier"] or current_entry["dependent tiers"]:
@@ -143,7 +145,7 @@ class Transcript:
 
         return structured_transcript
 
-    def get_word_mlu(self, speaker, list_of_strings_to_be_ignored=[",", ".", "?", "!", "(.)", "[?]"]):
+    def get_word_mlu(self, speaker, list_of_strings_to_be_ignored=None):
         """
        Returns a dictionary containing the word MLU and the standard deviation of the word MLU.
 
@@ -154,6 +156,8 @@ class Transcript:
         Returns:
             dict: A dictionary containing the word MLU and the standard deviation of the word MLU.
         """
+        if list_of_strings_to_be_ignored is None:
+            list_of_strings_to_be_ignored = [",", ".", "?", "!", "(.)", "[?]"]
         # Filter the structured transcript to get only the entries for the given speaker
         structured_transcript = self.get_structured_transcript()
         structured_transcript_filtered_by_speaker = [element for element in structured_transcript if
@@ -214,7 +218,7 @@ class Transcript:
         :return: A dictionary with tokens as keys and their frequencies as values.
         """
         structured_transcript = self.get_structured_transcript()
-        word_counts = {}
+        word_counts: dict[str, int] = {}
 
         if pattern and match_type not in {"startswith", "contains", "endswith", "equals"}:
             raise ValueError("match_type must be one of: 'startswith', 'contains', 'endswith', 'equals'")
@@ -235,13 +239,10 @@ class Transcript:
 
             for token in tokenize(text):
                 if pattern:
-                    if match_type == "startswith" and not token.startswith(pattern):
-                        continue
-                    elif match_type == "contains" and pattern not in token:
-                        continue
-                    elif match_type == "endswith" and not token.endswith(pattern):
-                        continue
-                    elif match_type == "equals" and token != pattern:
+                    if (match_type == "startswith" and not token.startswith(pattern)) or \
+                       (match_type == "contains" and pattern not in token) or \
+                       (match_type == "endswith" and not token.endswith(pattern)) or \
+                       (match_type == "equals" and token != pattern):
                         continue
 
                 if token in word_counts:

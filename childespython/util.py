@@ -1,6 +1,7 @@
 import os
 
-def tokenize(text, list_of_strings_to_be_ignored = [",", ".", "?", "!", "(.)", "[?]"]):
+
+def tokenize(text, list_of_strings_to_be_ignored = None):
     """
     Split text into tokens, stripping any trailing or leading ignore_list items.
     Preserves original case of tokens and skips empty tokens.
@@ -12,6 +13,8 @@ def tokenize(text, list_of_strings_to_be_ignored = [",", ".", "?", "!", "(.)", "
     Returns:
         cleaned token (str)
     """
+    if list_of_strings_to_be_ignored is None:
+        list_of_strings_to_be_ignored = [",", ".", "?", "!", "(.)", "[?]"]
 
     for raw in text.split():
         cleaned = raw
@@ -56,6 +59,6 @@ def get_recording_by_recording_name(path, corpus_name: str, child_name: str, rec
     except FileNotFoundError:
         print(f"Error: {file_path} not found.")
         return None
-    except Exception as e:
+    except OSError as e:
         print(f"Error reading file {file_path}: {e}")
         return None

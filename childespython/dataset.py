@@ -22,7 +22,7 @@ class ChildesDataset:
             path (str): The path to the directory containing the CHILDES transcripts.
         """
         self.path = path
-        self.dataset = dict()
+        self.dataset: dict[str, dict[str, dict[str, Transcript]]] = {}
         self.load_dataset()
 
     def load_dataset(self):
@@ -30,16 +30,14 @@ class ChildesDataset:
         Loads the dataset from the specified path.
         """
         for dir in os.listdir(self.path):
-            self.dataset[dir] = dict()
+            self.dataset[dir] = {}
             corpus_path = os.path.join(self.path, dir)
             if os.path.isdir(corpus_path):
                 for child in os.listdir(corpus_path):
-                    self.dataset[dir][child] = dict()
+                    self.dataset[dir][child] = {}
                     child_path = os.path.join(corpus_path, child)
                     if os.path.isdir(child_path):
                         for recording in os.listdir(child_path):
-                            self.dataset[dir][child][recording] = dict()
-                            recording_path = os.path.join(child_path, recording)
                             if recording.endswith(".cha"):
                                 transcript = Transcript(path=self.path, corpus=dir, child=child, recording=recording, name=recording)
                                 self.dataset[dir][child][recording] = transcript
